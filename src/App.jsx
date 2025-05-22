@@ -8,7 +8,7 @@ import productsFromServer from './api/products';
 
 const products = productsFromServer.map(product => {
   const category = categoriesFromServer.find(categ => {
-    return categ === product.categoryId;
+    return categ.id === product.categoryId;
   });
   const user = usersFromServer.find(person => {
     return person.id === category.ownerId;
@@ -178,44 +178,28 @@ export const App = () => (
           </thead>
 
           <tbody>
-            <tr data-cy="Product">
-              <td className="has-text-weight-bold" data-cy="ProductId">
-                1
-              </td>
+            {products.map(product => (
+              <tr key={product.id} data-cy="Product">
+                <td className="has-text-weight-bol" data-cy="productId">
+                  {product.id}
+                </td>
+                <td data-cy="ProductName">{product.name}</td>
+                <td data-cy="ProductCategory">
+                  {product.categoryIcon} - {product.categoryTitle}
+                </td>
 
-              <td data-cy="ProductName">Milk</td>
-              <td data-cy="ProductCategory">🍺 - Drinks</td>
-
-              <td data-cy="ProductUser" className="has-text-link">
-                Max
-              </td>
-            </tr>
-
-            <tr data-cy="Product">
-              <td className="has-text-weight-bold" data-cy="ProductId">
-                2
-              </td>
-
-              <td data-cy="ProductName">Bread</td>
-              <td data-cy="ProductCategory">🍞 - Grocery</td>
-
-              <td data-cy="ProductUser" className="has-text-danger">
-                Anna
-              </td>
-            </tr>
-
-            <tr data-cy="Product">
-              <td className="has-text-weight-bold" data-cy="ProductId">
-                3
-              </td>
-
-              <td data-cy="ProductName">iPhone</td>
-              <td data-cy="ProductCategory">💻 - Electronics</td>
-
-              <td data-cy="ProductUser" className="has-text-link">
-                Roma
-              </td>
-            </tr>
+                <td
+                  data-cy="ProductUser"
+                  className={
+                    product.userSex === 'm'
+                      ? 'has-text-link'
+                      : 'has-text-danger'
+                  }
+                >
+                  {product.userName}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
