@@ -15,7 +15,7 @@ const products = productsFromServer.map(product => {
   });
 
   return {
-    ...products,
+    ...product,
     categoryTitle: category.title,
     categoryIcon: category.icon,
     userName: user.name,
