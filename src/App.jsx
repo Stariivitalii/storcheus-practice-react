@@ -37,6 +37,14 @@ export const App = () => {
     }
   };
 
+  const [query, setQuery] = useState('');
+  const filteredProducts = visibleProducts.filter(product => {
+    return product.name.toLowerCase().includes(query.toLowerCase());
+  });
+  const handleCleanSearch = () => {
+    setQuery('');
+  };
+
   return (
     <div className="section">
       <div className="container">
@@ -76,7 +84,8 @@ export const App = () => {
                   type="text"
                   className="input"
                   placeholder="Search"
-                  value="qwe"
+                  value={query}
+                  onChange={element => setQuery(element.target.value)}
                 />
 
                 <span className="icon is-left">
@@ -85,11 +94,14 @@ export const App = () => {
 
                 <span className="icon is-right">
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                  <button
-                    data-cy="ClearButton"
-                    type="button"
-                    className="delete"
-                  />
+                  {query && (
+                    <button
+                      data-cy="ClearButton"
+                      type="button"
+                      className="delete"
+                      onClick={handleCleanSearch}
+                    />
+                  )}
                 </span>
               </p>
             </div>
@@ -197,7 +209,7 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {visibleProducts.map(product => (
+              {filteredProducts.map(product => (
                 <tr key={product.id} data-cy="Product">
                   <td className="has-text-weight-bol" data-cy="productId">
                     {product.id}
